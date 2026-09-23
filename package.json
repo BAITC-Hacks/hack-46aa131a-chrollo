@@ -10,24 +10,29 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "npm run typecheck && npm test && npm run build"
+    "check": "npm run typecheck && npm test && npm run build",
+    "format": "prettier --write src next.config.ts tsconfig.json vitest.config.ts package.json README.md docs .github",
+    "format:check": "prettier --check src next.config.ts tsconfig.json vitest.config.ts package.json README.md docs .github"
   },
   "dependencies": {
+    "@fontsource/ibm-plex-mono": "^5.2.7",
+    "@fontsource/manrope": "^5.2.8",
+    "@phosphor-icons/react": "^2.1.10",
     "next": "16.3.6",
+    "openai": "7.23.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "openai": "7.23.0",
-    "zod": "^4.3.6",
-    "@phosphor-icons/react": "^2.1.10",
-    "@fontsource/manrope": "^5.2.8",
-    "@fontsource/ibm-plex-mono": "^5.2.7"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
-    "typescript": "^5.9.3",
     "@types/node": "^24.0.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "prettier": "^3.9.9",
+    "typescript": "^5.9.3",
     "vitest": "5.0.1"
   },
-  "engines": { "node": ">=22.12.0" }
+  "engines": {
+    "node": ">=22.12.0"
+  }
 }

@@ -1,2 +1,4 @@
 import { Simulator } from "@/components/simulator";
-export default function Page(){return <Simulator/>;}
+export default function Page() {
+  return <Simulator />;
+}
