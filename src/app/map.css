@@ -1,0 +1,313 @@
+.geographic-map-shell {
+  position: relative;
+  background: #eef2eb;
+  container-type: inline-size;
+  container-name: city-geography;
+}
+.geographic-map {
+  height: 500px;
+  width: 100%;
+  background: #e8ede4;
+  isolation: isolate;
+  z-index: 0;
+  font-family: Manrope, sans-serif;
+}
+.qala-basemap {
+  filter: saturate(0.52) contrast(0.97);
+}
+.geographic-map .leaflet-interactive {
+  cursor: pointer;
+  transition:
+    fill 140ms ease,
+    stroke 140ms ease;
+}
+.geographic-map .leaflet-interactive:hover {
+  stroke: #507865;
+}
+.geographic-map .leaflet-control-attribution {
+  font:
+    10px Manrope,
+    sans-serif;
+  padding: 3px 7px;
+  background: #fffffff0;
+}
+.geographic-map .leaflet-control-attribution a {
+  color: #315d50;
+}
+.map-district-marker {
+  background: none;
+  border: 0;
+}
+.map-district-label {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 5px;
+  padding: 9px 11px;
+  background: #fffffff5;
+  color: #263e33;
+  border: 1px solid #fff;
+  border-radius: 9px;
+  box-shadow: 0 2px 9px #1c392522;
+  text-align: left;
+  min-width: 108px;
+}
+.map-district-label > span {
+  grid-column: 1 / -1;
+  font:
+    600 12px Manrope,
+    sans-serif;
+  line-height: 1.4;
+}
+.map-district-label > strong {
+  font: 20px var(--mono);
+  letter-spacing: -0.8px;
+  line-height: 1.5;
+}
+.map-district-label > em {
+  font: 10px var(--mono);
+  font-style: normal;
+}
+.map-district-label.is-selected {
+  background: #245f49;
+  border-color: #fff;
+  color: #fff;
+  box-shadow:
+    0 0 0 2px #245f49,
+    0 4px 16px #1c392530;
+}
+.map-district-label.is-selected > em {
+  color: #e4f2e4;
+}
+.map-district-marker:focus-visible {
+  outline: 3px solid #254ea8;
+  outline-offset: 4px;
+  border-radius: 9px;
+}
+.geographic-map-controls {
+  position: absolute;
+  z-index: 500;
+  right: 16px;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d2ded3;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 3px 12px #17352314;
+  overflow: hidden;
+}
+.geographic-map-controls button {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  background: #fff;
+  border: 0;
+  color: #294f3d;
+  cursor: pointer;
+}
+.geographic-map-controls button + button {
+  border-top: 1px solid #e4eae2;
+}
+.geographic-map-controls button:hover {
+  background: #edf3ed;
+}
+.geographic-map-controls button:active {
+  background: #dfece1;
+}
+.geographic-map-controls button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.geographic-map-north {
+  position: absolute;
+  top: 18px;
+  left: 19px;
+  z-index: 400;
+  display: grid;
+  text-align: center;
+  color: #335c47;
+  font-size: 27px;
+  line-height: 1;
+  text-shadow: 0 1px 3px #fff;
+  pointer-events: none;
+}
+.geographic-map-north span {
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.geographic-map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding: 11px 17px;
+  border-top: 1px solid #dbe4d9;
+  background: #f8faf6;
+  font: 10px var(--mono);
+  color: #435e4e;
+}
+.geographic-map-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.geographic-map-legend > span:first-child {
+  font:
+    11px Manrope,
+    sans-serif;
+  margin-right: auto;
+}
+.geographic-map-legend i {
+  width: 11px;
+  height: 9px;
+  border-radius: 2px;
+}
+.map-district-picker {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  background: #fff;
+  border-top: 1px solid #e0e8dc;
+}
+.map-district-picker button {
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+  padding: 12px 14px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  color: #506252;
+  min-width: 0;
+}
+.map-district-picker button + button {
+  border-left: 1px solid #edf0e9;
+}
+.map-district-picker button > span {
+  font:
+    600 11px Manrope,
+    sans-serif;
+}
+.map-district-picker button > strong {
+  font: 15px var(--mono);
+}
+.map-district-picker button[aria-pressed="true"] {
+  background: #eff5ed;
+  border-bottom-color: #245f49;
+  color: #245f49;
+}
+.map-district-picker button:hover {
+  background: #f3f6f0;
+}
+.map-source-note {
+  background: #fafbf8;
+  color: #657263;
+  padding: 9px 16px;
+  font:
+    10px/1.6 Manrope,
+    sans-serif;
+  border-top: 1px solid #e6ece0;
+}
+.map-source-note summary {
+  cursor: pointer;
+}
+.map-source-note p {
+  margin: 8px 0 2px;
+  max-width: 70ch;
+}
+.map-source-note a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.geographic-map-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 500px;
+  display: grid;
+  place-items: center;
+  color: #5b7160;
+  font-size: 13px;
+  pointer-events: none;
+}
+.map-tile-notice {
+  position: absolute;
+  z-index: 450;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 11px;
+  width: max-content;
+  max-width: 65%;
+  background: #fff7e7;
+  border: 1px solid #e8d6b2;
+  border-radius: 6px;
+  color: #6a512e;
+  font-size: 11px;
+}
+@media (max-width: 1100px) {
+  .geographic-map,
+  .geographic-map-loading {
+    height: 460px;
+  }
+  .map-district-picker button {
+    padding: 11px 8px;
+  }
+}
+@media (max-width: 600px) {
+  .geographic-map,
+  .geographic-map-loading {
+    height: 420px;
+  }
+  .map-district-label {
+    min-width: 92px;
+    padding: 7px 9px;
+  }
+  .map-district-label > span {
+    font-size: 11px;
+  }
+  .map-district-label > strong {
+    font-size: 18px;
+  }
+  .map-district-picker button > span {
+    font-size: 11px;
+  }
+  .map-district-picker button > strong {
+    font-size: 13px;
+  }
+  .geographic-map-legend {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .geographic-map-legend > span:first-child {
+    font-size: 10px;
+  }
+}
+@container city-geography (max-width: 500px) {
+  .map-district-label {
+    position: relative;
+    left: 12px;
+    width: 84px;
+    min-width: 84px;
+    padding: 6px 8px;
+  }
+  .map-district-label > span {
+    font-size: 10px;
+  }
+  .map-district-label > strong {
+    font-size: 17px;
+  }
+  .map-district-label > em {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .geographic-map .leaflet-interactive {
+    transition: none;
+  }
+}
