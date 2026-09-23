@@ -1,0 +1,33 @@
+{
+  "name": "qala-city-simulator",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "next": "16.3.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "openai": "7.23.0",
+    "zod": "^4.3.6",
+    "@phosphor-icons/react": "^2.1.10",
+    "@fontsource/manrope": "^5.2.8",
+    "@fontsource/ibm-plex-mono": "^5.2.7"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "vitest": "5.0.1"
+  },
+  "engines": { "node": ">=22.12.0" }
+}
