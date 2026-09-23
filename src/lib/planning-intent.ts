@@ -16,13 +16,31 @@ export function applyIntentChanges(
   changes: ConstraintChanges,
   message: string,
 ): PlanConstraints {
+  const clearingLocks = changes.clearLocks && before.locked.length > 0;
+  const clearingExcluded = changes.clearExcluded && before.excluded.length > 0;
   const releasing =
-    changes.clearLocks ||
-    changes.clearExcluded ||
-    changes.removeLocks.length > 0 ||
-    changes.removeExcluded.length > 0;
+    clearingLocks ||
+    clearingExcluded ||
+    before.locked.some((d) => changes.removeLocks.includes(d.measureId)) ||
+    before.excluded.some((id) => changes.removeExcluded.includes(id));
   if (releasing) {
-    const evidence = changes.releaseEvidence?.trim().toLocaleLowerCase("ru");
+    // Verify a narrow explicit command directly if the model lost its literal quotation.
+    // The command authorizes only this exclusion, never another measure or a bulk reset.
+    const directExclusion = message
+      .trim()
+      .match(
+        /^(?:сними|убери|отмени)\s+(?:запрет|исключение)\s+(?:на\s+)?(M(?:1[0-4]|[1-9]))(?=$|[\s,.;!?])/iu,
+      );
+    const directlyAuthorized =
+      directExclusion &&
+      !clearingLocks &&
+      !clearingExcluded &&
+      changes.removeLocks.length === 0 &&
+      changes.removeExcluded.length > 0 &&
+      changes.removeExcluded.every((id) => id === directExclusion[1].toUpperCase());
+    const evidence = (directlyAuthorized ? directExclusion[0] : changes.releaseEvidence)
+      ?.trim()
+      .toLocaleLowerCase("ru");
     if (
       !evidence ||
       !message.toLocaleLowerCase("ru").includes(evidence) ||
@@ -33,10 +51,7 @@ export function applyIntentChanges(
       throw new Error(
         "Не удалось подтвердить снятие ограничений. Напишите явно, какие закрепления или исключения нужно снять, либо измените их справа.",
       );
-    if (
-      (changes.clearLocks || changes.clearExcluded) &&
-      !/(все|всё|всех|полностью|all)/iu.test(evidence)
-    )
+    if ((clearingLocks || clearingExcluded) && !/(все|всё|всех|полностью|all)/iu.test(evidence))
       throw new Error("Уточните: снять все ограничения или только определённые?");
   }
   const locked = changes.clearLocks

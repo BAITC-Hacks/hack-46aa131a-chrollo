@@ -81,7 +81,7 @@ export async function POST(request: Request) {
   const report = makeReport(decisions);
   if (!process.env.OPENAI_API_KEY)
     return Response.json({ ...report, notice: "OpenAI не подключён. Показан расчётный разбор." });
-  const model = process.env.OPENAI_MODEL || "gpt-4.1-mini";
+  const model = process.env.OPENAI_MODEL || "gpt-4.1";
   const key = model + ":" + scenarioKey(decisions);
   const hit = cache.get(key);
   if (hit && Date.now() - hit.time < 30 * 60 * 1000)

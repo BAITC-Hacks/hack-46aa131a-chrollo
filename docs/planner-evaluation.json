@@ -1,0 +1,401 @@
+{
+  "date": "2026-09-23T11:36:31.261Z",
+  "base": "http://127.0.0.1:3003",
+  "modelLabel": "gpt-4.1",
+  "cases": [
+    {
+      "prompt": "Найди план с максимальным общим Score",
+      "expected": "score",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "По цели «Общий Score» лучший допустимый план — вариант 1: **Score 57,24**, бюджет **98/100**. Самый слабый район: **Нура**, 54,09.\n\nКритических показателей нет. Изменение Score к вашему плану: +0,69. Меньше улучшений относительно вашего плана получат: Сарыарка (−0,53).\n\nПроверено 694 395 допустимых планов. Другие цели дают отличающиеся варианты — сравните их ниже. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Помоги самому слабому району",
+      "expected": "weakest",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "weakest", "districtId": null },
+      "message": "По цели «Самый слабый район» лучший допустимый план — вариант 1: **Score 55,43**, бюджет **98/100**. Самый слабый район: **Сарыарка**, 55,26.\n\nКритические показатели сохраняются: Нура: Школы и детсады 38,00; Нура: Первичная медпомощь 35,00. Изменение Score к вашему плану: −1,11. Меньше улучшений относительно вашего плана получат: Сарыарка (−1,04).\n\nПроверено 694 395 допустимых планов. Другие цели дают отличающиеся варианты — сравните их ниже. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Сведи к минимуму число критических показателей",
+      "expected": "critical",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "critical", "districtId": null },
+      "message": "По цели «Устранение дефицитов» лучший допустимый план — вариант 1: **Score 57,24**, бюджет **98/100**. Самый слабый район: **Нура**, 54,09.\n\nКритических показателей нет. Изменение Score к вашему плану: +0,69. Меньше улучшений относительно вашего плана получат: Сарыарка (−0,53).\n\nПроверено 694 395 допустимых планов. Другие цели дают отличающиеся варианты — сравните их ниже. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Подбери лучший план для Нуры",
+      "expected": "district",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "district", "districtId": "nura" },
+      "message": "По цели «Выбранный район» лучший допустимый план — вариант 1: **Score 55,91**, бюджет **92/100**. Самый слабый район: **Сарыарка**, 54,65.\n\nКритические показатели сохраняются: Нура: Первичная медпомощь 37,63. Изменение Score к вашему плану: −0,63. Меньше улучшений относительно вашего плана получат: Есиль (−0,44), Алматы (−0,44), Сарыарка (−1,65), Байконур (−0,44).\n\nПроверено 694 395 допустимых планов. Другие цели дают отличающиеся варианты — сравните их ниже. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Найди лучший план для Алматы",
+      "expected": "district",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "district", "districtId": "almaty" },
+      "message": "По цели «Выбранный район» лучший допустимый план — вариант 1: **Score 53,62**, бюджет **92/100**. Самый слабый район: **Нура**, 49,18.\n\nКритические показатели сохраняются: Нура: Школы и детсады 38,00; Нура: Первичная медпомощь 35,00. Изменение Score к вашему плану: −2,92. Меньше улучшений относительно вашего плана получат: Есиль (−0,44), Сарыарка (−1,65), Байконур (−0,44), Нура (−3,78).\n\nПроверено 694 395 допустимых планов. Другие цели дают отличающиеся варианты — сравните их ниже. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Улучши план, сохрани школу M7 в Нуре",
+      "expected": "lock",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": {
+        "locked": [{ "measureId": "M7", "districtId": "nura" }],
+        "excluded": [],
+        "goal": "score",
+        "districtId": null
+      },
+      "message": "По цели «Общий Score» лучший допустимый план — вариант 1: **Score 57,21**, бюджет **100/100**. Самый слабый район: **Нура**, 54,98.\n\nКритических показателей нет. Изменение Score к вашему плану: +0,66. Меньше улучшений относительно вашего плана получат: Сарыарка (−1,21).\n\nПроверено 48 057 допустимых планов. Лучшие планы по сравниваемым целям совпали. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Подбери план без M1",
+      "expected": "exclude",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": ["M1"], "goal": "score", "districtId": null },
+      "message": "По цели «Общий Score» лучший допустимый план — вариант 1: **Score 57,24**, бюджет **98/100**. Самый слабый район: **Нура**, 54,09.\n\nКритических показателей нет. Изменение Score к вашему плану: +0,69. Меньше улучшений относительно вашего плана получат: Сарыарка (−0,53).\n\nПроверено 413 365 допустимых планов. Другие цели дают отличающиеся варианты — сравните их ниже. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Проверь задержку поликлиники M8 на три дополнительных квартала",
+      "expected": "delay",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "При дополнительной задержке «Семейная поликлиника · Нура» на 3 кварт. Score меняется с 56,54 до 55,31 (−1,24).\n\nВозвращается критический дефицит: Нура — Первичная медпомощь 38,50. Бюджет и остальные меры сохранены. Это отдельный эксперимент; ваш официальный результат не изменён.",
+      "searched": false,
+      "delayQuarters": 3
+    },
+    {
+      "prompt": "Проверь текущий план: задержи каждую меру по очереди на 2 квартала",
+      "expected": "delay",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "При дополнительной задержке «Школа и детский сад · Нура» на 2 кварт. Score меняется с 56,54 до 56,36 (−0,18).\n\nНовых критических дефицитов не возникает. Бюджет и остальные меры сохранены. Это отдельный эксперимент; ваш официальный результат не изменён.",
+      "searched": false,
+      "delayQuarters": 2
+    },
+    {
+      "prompt": "Найди план с наибольшим Score в худшем случае при задержке любой одной меры на два квартала",
+      "expected": "unsupported",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "Поиск плана с максимальным результатом в худшем случае при задержках (робастная оптимизация) сейчас не поддержан. Могу подобрать лучший обычный план (Score) или план по другим поддерживаемым целям.",
+      "searched": false,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Подбери наиболее устойчивый план",
+      "expected": "unsupported",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "Оптимизация устойчивости к задержкам (робастная оптимизация) не поддерживается: система не может подобрать план с максимальным результатом в худшем случае при задержках мер. Я могу подобрать лучший план по общему Score, минимальному району (weakest), числу критических значений (critical) или для выбранного района.",
+      "searched": false,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Find the best robust plan under delays",
+      "expected": "unsupported",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "Оптимизация наихудшего случая при возможных задержках (робастное планирование) не поддерживается: система не может подобрать новый план с максимальным результатом в худшем случае при задержках. Можно проверить устойчивость уже обсуждаемого плана к задержкам, либо подобрать обычный лучший план по одной из поддерживаемых целей (score, weakest, critical, district).",
+      "searched": false,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Помоги слабейшему району, но ни один другой район не должен потерять баллы относительно моего плана",
+      "expected": "unsupported",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "Ограничение «ни один другой район не должен потерять баллы» не поддерживается: симулятор не может гарантировать отсутствие потерь для всех остальных районов, если цель изменяется на помощь слабейшему. Можно подобрать план с целью 'максимизировать балл слабейшего района', но возможны изменения баллов в других районах.",
+      "searched": false,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Найди лучший план с бюджетом не больше 70",
+      "expected": "unsupported",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "Бюджет в модели всегда равен 100, изменить его на 70 невозможно — поиск новых планов допускается только в рамках фиксированного бюджета 100.\n\nНе учтено: бюджет не больше 70.\n\nУсловия поиска и открытый план сохранены. Уточните запрос или задайте условия вручную.",
+      "searched": false,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Выбери только три мероприятия вместо пяти",
+      "expected": "unsupported",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "Запрос ограничить число мероприятий до трёх не поддерживается: всегда требуется ровно 5 различных мероприятий. Пожалуйста, выберите, какие меры не использовать, или уточните задачу.",
+      "searched": false,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Максимизируй S2 в Нуре",
+      "expected": "unsupported",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "Оптимизация отдельного показателя (S2) не поддерживается. Можно только максимизировать общий балл района (district Score), чему и соответствует предложенное действие.\n\nНе учтено: Максимизируй S2 в Нуре.\n\nУсловия поиска и открытый план сохранены. Уточните запрос или задайте условия вручную.",
+      "searched": false,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Подбери план, чтобы T1 во всех районах был не ниже 60",
+      "expected": "unsupported",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "Оптимизация или подбор плана по порогам отдельных показателей (например, чтобы T1 был не ниже 60 во всех районах) не поддерживается: можно максимизировать общий Score, балл слабейшего района, минимизировать число критических показателей (значений ниже 40), либо максимизировать балл выбранного района. Пожалуйста, уточните цель поиска.",
+      "searched": false,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Задержи M7 и M8 одновременно на два квартала",
+      "expected": "unsupported",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "Одновременная дополнительная задержка сразу нескольких мер не поддерживается в текущей версии системы. Можно проверить задержку по одной мере за раз.",
+      "searched": false,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Найди лучший план на горизонте 12 кварталов",
+      "expected": "unsupported",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "Запрошен горизонт 12 кварталов, но поддерживается только стандартный горизонт в 8 кварталов (2 года). Пожалуйста, уточните запрос с учётом этого ограничения.",
+      "searched": false,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Оптимизируй с весами: 80% экология, 20% транспорт",
+      "expected": "unsupported",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "Оптимизация с пользовательскими весами (например, 80% экология, 20% транспорт) сейчас не поддержана. Можно подобрать лучший общий план по официальному Score либо по одной из специальных целей ('минимум критических', 'улучшить слабейший район', либо выбранный район). Уточните, какую из поддерживаемых целей выбрать.",
+      "searched": false,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Не оптимизируй устойчивость, просто максимизируй обычный Score",
+      "expected": "score",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "По цели «Общий Score» лучший допустимый план — вариант 1: **Score 57,24**, бюджет **98/100**. Самый слабый район: **Нура**, 54,09.\n\nКритических показателей нет. Изменение Score к вашему плану: +0,69. Меньше улучшений относительно вашего плана получат: Сарыарка (−0,53).\n\nПроверено 694 395 допустимых планов. Другие цели дают отличающиеся варианты — сравните их ниже. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Не нужен робастный план, найди максимальный обычный Score",
+      "expected": "score",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "По цели «Общий Score» лучший допустимый план — вариант 1: **Score 57,24**, бюджет **98/100**. Самый слабый район: **Нура**, 54,09.\n\nКритических показателей нет. Изменение Score к вашему плану: +0,69. Меньше улучшений относительно вашего плана получат: Сарыарка (−0,53).\n\nПроверено 694 395 допустимых планов. Другие цели дают отличающиеся варианты — сравните их ниже. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Найди лучший обычный Score; устойчивость не оптимизируй",
+      "expected": "score",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "По цели «Общий Score» лучший допустимый план — вариант 1: **Score 57,24**, бюджет **98/100**. Самый слабый район: **Нура**, 54,09.\n\nКритических показателей нет. Изменение Score к вашему плану: +0,69. Меньше улучшений относительно вашего плана получат: Сарыарка (−0,53).\n\nПроверено 694 395 допустимых планов. Другие цели дают отличающиеся варианты — сравните их ниже. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Найди лучший план по обычному Score, затем проверь его устойчивость к задержке одной меры",
+      "expected": "score",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "По цели «Общий Score» лучший допустимый план — вариант 1: **Score 57,24**, бюджет **98/100**. Самый слабый район: **Нура**, 54,09.\n\nКритических показателей нет. Изменение Score к вашему плану: +0,69. Меньше улучшений относительно вашего плана получат: Сарыарка (−0,53).\n\nПроверено 694 395 допустимых планов. Другие цели дают отличающиеся варианты — сравните их ниже. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Найди лучший план с учётом штатных лагов",
+      "expected": "score",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "По цели «Общий Score» лучший допустимый план — вариант 1: **Score 57,24**, бюджет **98/100**. Самый слабый район: **Нура**, 54,09.\n\nКритических показателей нет. Изменение Score к вашему плану: +0,69. Меньше улучшений относительно вашего плана получат: Сарыарка (−0,53).\n\nПроверено 694 395 допустимых планов. Другие цели дают отличающиеся варианты — сравните их ниже. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Закрепи школу M7 в Нуре и найди лучший Score",
+      "expected": "lock",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": {
+        "locked": [{ "measureId": "M7", "districtId": "nura" }],
+        "excluded": [],
+        "goal": "score",
+        "districtId": null
+      },
+      "message": "По цели «Общий Score» лучший допустимый план — вариант 1: **Score 57,21**, бюджет **100/100**. Самый слабый район: **Нура**, 54,98.\n\nКритических показателей нет. Изменение Score к вашему плану: +0,66. Меньше улучшений относительно вашего плана получат: Сарыарка (−1,21).\n\nПроверено 48 057 допустимых планов. Лучшие планы по сравниваемым целям совпали. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Проверь устойчивость текущего плана к задержке одной меры на два квартала",
+      "expected": "delay",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "При дополнительной задержке «Школа и детский сад · Нура» на 2 кварт. Score меняется с 56,54 до 56,36 (−0,18).\n\nНовых критических дефицитов не возникает. Бюджет и остальные меры сохранены. Это отдельный эксперимент; ваш официальный результат не изменён.",
+      "searched": false,
+      "delayQuarters": 2
+    },
+    {
+      "prompt": "Сними все закрепления и найди лучший общий Score",
+      "expected": "released",
+      "requestConstraints": {
+        "locked": [
+          { "measureId": "M7", "districtId": "nura" },
+          { "measureId": "M8", "districtId": "nura" }
+        ],
+        "excluded": [],
+        "goal": "score",
+        "districtId": null
+      },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "По цели «Общий Score» лучший допустимый план — вариант 1: **Score 57,24**, бюджет **98/100**. Самый слабый район: **Нура**, 54,09.\n\nКритических показателей нет. Изменение Score к вашему плану: +0,69. Меньше улучшений относительно вашего плана получат: Сарыарка (−0,53).\n\nПроверено 694 395 допустимых планов. Другие цели дают отличающиеся варианты — сравните их ниже. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Оставь все пять решений текущего плана и подбери лучший вариант",
+      "expected": "all_locked",
+      "requestConstraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": {
+        "locked": [
+          { "measureId": "M7", "districtId": "nura" },
+          { "measureId": "M8", "districtId": "nura" },
+          { "measureId": "M10", "districtId": "nura" },
+          { "measureId": "M12" },
+          { "measureId": "M5", "districtId": "saryarka" }
+        ],
+        "excluded": [],
+        "goal": "score",
+        "districtId": null
+      },
+      "message": "Проверено 1 допустимых планов при ваших условиях. Текущий план уже лучший по всем сравниваемым целям — менять его ради этих целей не требуется.\n\nЗакреплены: Школа и детский сад · Нура; Семейная поликлиника · Нура; Освещение и камеры · Нура; Платформа обращений · Весь город; Чистое топливо · Сарыарка. Один вариант в результатах означает, что победители по целям совпали. Это не означает, что допустим только один набор решений.",
+      "searched": true,
+      "delayQuarters": null
+    },
+    {
+      "prompt": "Сними запрет на M1 и найди лучший план",
+      "expected": "unexcluded",
+      "requestConstraints": {
+        "locked": [],
+        "excluded": ["M1"],
+        "goal": "score",
+        "districtId": null
+      },
+      "passed": true,
+      "status": 200,
+      "source": "openai",
+      "constraints": { "locked": [], "excluded": [], "goal": "score", "districtId": null },
+      "message": "По цели «Общий Score» лучший допустимый план — вариант 1: **Score 57,24**, бюджет **98/100**. Самый слабый район: **Нура**, 54,09.\n\nКритических показателей нет. Изменение Score к вашему плану: +0,69. Меньше улучшений относительно вашего плана получат: Сарыарка (−0,53).\n\nПроверено 694 395 допустимых планов. Другие цели дают отличающиеся варианты — сравните их ниже. Закреплённые решения сохранены. **Предпросмотр на карте.** План изменится только по кнопке «Применить».",
+      "searched": true,
+      "delayQuarters": null
+    }
+  ]
+}

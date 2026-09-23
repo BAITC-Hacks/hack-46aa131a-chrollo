@@ -1,4 +1,4 @@
-import { afterEach, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { POST } from "./route";
 import { EXAMPLE } from "@/lib/data";
 import { DEFAULT_CONSTRAINTS } from "@/lib/planner";
@@ -9,6 +9,11 @@ vi.mock("openai", () => ({
     responses = { parse: ai.parse };
   },
 }));
+beforeEach(() => {
+  ai.parse.mockResolvedValue({
+    output_parsed: { complete: true, unhandled: [], clarification: "" },
+  });
+});
 afterEach(() => {
   vi.unstubAllEnvs();
   ai.parse.mockReset();
@@ -138,6 +143,9 @@ it("runs a delay experiment on the inspected preview without changing constraint
       ...input,
       mode: "chat",
       scenarioContext: "preview",
+      appliedDecisions: EXAMPLE,
+      previousPlans: [EXAMPLE],
+      experiment: { measureId: "M8", quarters: 2 },
       messages: [{ role: "user", content: "Задержи поликлинику на 3 квартала" }],
     }),
   );
@@ -151,6 +159,11 @@ it("runs a delay experiment on the inspected preview without changing constraint
   expect(body.message).toContain("официальный результат не изменён");
   const modelContext = JSON.parse(ai.parse.mock.calls[0][0].input[1].content);
   expect(modelContext.scenarioContext).toContain("НЕ принятый план");
+  const checkerContext = JSON.parse(ai.parse.mock.calls[1][0].input[1].content);
+  expect(checkerContext.scenarioContext).toBe("preview");
+  expect(checkerContext.appliedDecisions).toEqual(EXAMPLE);
+  expect(checkerContext.previousPlans).toEqual([EXAMPLE]);
+  expect(checkerContext.activeExperiment).toEqual({ measureId: "M8", quarters: 2 });
 });
 
 it("compares a second search with the applied plan, not the previous preview", async () => {
@@ -179,4 +192,102 @@ it("compares a second search with the applied plan, not the previous preview", a
   const body = await response.json();
   expect(body.message).toContain("−1,11");
   expect(body.message).not.toContain("−1,81");
+});
+
+it("does not silently replace robustness optimization with ordinary Score", async () => {
+  vi.stubEnv("OPENAI_API_KEY", "test-only");
+  ai.parse
+    .mockResolvedValueOnce({
+      output_parsed: {
+        intent: "plan",
+        message: "Подбираю",
+        changes: noChanges,
+        delayQuarters: 0,
+        delayMeasureId: null,
+      },
+    })
+    .mockResolvedValueOnce({
+      output_parsed: {
+        complete: false,
+        unhandled: ["Наибольший Score в худшем случае"],
+        clarification: "Оптимизация устойчивости пока не поддерживается.",
+      },
+    });
+  const response = await POST(
+    request({
+      ...input,
+      mode: "chat",
+      messages: [
+        {
+          role: "user",
+          content:
+            "Найди план, у которого наибольший Score в худшем случае, если любая одна мера задержится на два квартала. Оптимизируй именно устойчивость, а не обычный Score.",
+        },
+      ],
+    }),
+  );
+  const body = await response.json();
+  expect(response.status).toBe(200);
+  expect(body.search).toBeNull();
+  expect(body.stress).toBeNull();
+  expect(body.constraints).toEqual(input.constraints);
+  expect(body.message).toContain("устойчивости");
+});
+
+it("keeps the current conditions if the independent coverage check finds an omitted requirement", async () => {
+  vi.stubEnv("OPENAI_API_KEY", "test-only");
+  ai.parse
+    .mockResolvedValueOnce({
+      output_parsed: {
+        intent: "plan",
+        message: "Подбираю",
+        changes: { ...noChanges, goal: "weakest" },
+        delayQuarters: 0,
+        delayMeasureId: null,
+      },
+    })
+    .mockResolvedValueOnce({
+      output_parsed: {
+        complete: false,
+        unhandled: ["Ни один район не должен потерять баллы"],
+        clarification: "Ограничение потерь по районам не поддерживается.",
+      },
+    });
+  const response = await POST(
+    request({
+      ...input,
+      mode: "chat",
+      messages: [
+        {
+          role: "user",
+          content:
+            "Помоги слабейшему району и гарантируй, что ни один другой район не потеряет баллы.",
+        },
+      ],
+    }),
+  );
+  const body = await response.json();
+  expect(body.search).toBeNull();
+  expect(body.constraints).toEqual(input.constraints);
+  expect(body.message).toContain("Ни один район не должен потерять баллы");
+});
+
+it("does not execute a search when request coverage cannot be verified", async () => {
+  vi.stubEnv("OPENAI_API_KEY", "test-only");
+  ai.parse
+    .mockResolvedValueOnce({
+      output_parsed: {
+        intent: "plan",
+        message: "Подбираю",
+        changes: noChanges,
+        delayQuarters: 0,
+        delayMeasureId: null,
+      },
+    })
+    .mockResolvedValueOnce({ output_parsed: null });
+  const response = await POST(
+    request({ ...input, mode: "chat", messages: [{ role: "user", content: "Улучши план" }] }),
+  );
+  expect(response.status).toBe(502);
+  expect((await response.json()).error).toContain("план не изменён");
 });

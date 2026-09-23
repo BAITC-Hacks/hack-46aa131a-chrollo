@@ -53,3 +53,52 @@ it("adds requested locks without replacing a prior locked district silently", ()
     ),
   ).toThrow();
 });
+it("ignores requests to clear conditions that do not exist", () => {
+  const next = applyIntentChanges(
+    DEFAULT_CONSTRAINTS,
+    {
+      ...unchanged,
+      clearLocks: true,
+      clearExcluded: true,
+      removeLocks: ["M7"],
+      goal: "district",
+      districtId: "nura",
+    },
+    "Подбери лучший план для Нуры",
+  );
+  expect(next).toEqual({ ...DEFAULT_CONSTRAINTS, goal: "district", districtId: "nura" });
+});
+it("still requires evidence when an existing exclusion would be removed", () => {
+  expect(() =>
+    applyIntentChanges(
+      { ...DEFAULT_CONSTRAINTS, excluded: ["M1"] },
+      {
+        ...unchanged,
+        clearLocks: true,
+        removeExcluded: ["M1"],
+      },
+      "Найди лучший план",
+    ),
+  ).toThrow();
+});
+it("accepts an explicit single-measure removal even when the model omits its quotation", () => {
+  const before = { ...DEFAULT_CONSTRAINTS, excluded: ["M1", "M2"] };
+  const next = applyIntentChanges(
+    before,
+    { ...unchanged, removeExcluded: ["M1"] },
+    "Сними запрет на M1 и найди лучший план",
+  );
+  expect(next.excluded).toEqual(["M2"]);
+});
+it.each([
+  ["Не снимай запрет на M1", "M1"],
+  ["Сними запрет на M1 и найди лучший план", "M2"],
+])("does not infer permission for an unrelated or negated removal: %s", (message, id) => {
+  expect(() =>
+    applyIntentChanges(
+      { ...DEFAULT_CONSTRAINTS, excluded: ["M1", "M2"] },
+      { ...unchanged, removeExcluded: [id] },
+      message,
+    ),
+  ).toThrow();
+});

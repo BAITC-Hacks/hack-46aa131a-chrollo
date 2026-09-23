@@ -85,7 +85,7 @@ cp .env.example .env.local
 
 ```dotenv
 OPENAI_API_KEY=your_api_key_here
-OPENAI_MODEL=gpt-4.1-mini
+OPENAI_MODEL=gpt-4.1
 ```
 
 «OpenAI подключён» в шапке означает наличие ключа; его работоспособность проверяется первым сообщением. Ключ используется сервером, файл исключён из Git. Запросы оплачиваются в аккаунте владельца ключа.
@@ -137,15 +137,15 @@ npm run format:check
 
 ## Технологии
 
-| Слой              | Используется                                                                          |
-| ----------------- | ------------------------------------------------------------------------------------- |
-| Приложение и API  | Next.js 16, React 19, TypeScript, Node.js                                             |
-| AI                | OpenAI JavaScript SDK, Responses API, Structured Outputs; `gpt-4.1-mini` по умолчанию |
-| Проверка структур | Zod                                                                                   |
-| Интерфейс         | CSS, SVG, Phosphor; локальные шрифты Manrope и IBM Plex Mono                          |
-| Markdown          | `react-markdown`, `remark-gfm`; сырой HTML отключён                                   |
-| Проверки          | Vitest, TypeScript, Prettier; браузерные проверки через agent-browser и axe-core      |
-| Хранение          | `localStorage` для сценария и одного набора сравнения; без базы данных                |
+| Слой              | Используется                                                                     |
+| ----------------- | -------------------------------------------------------------------------------- |
+| Приложение и API  | Next.js 16, React 19, TypeScript, Node.js                                        |
+| AI                | OpenAI JavaScript SDK, Responses API, Structured Outputs; `gpt-4.1` по умолчанию |
+| Проверка структур | Zod                                                                              |
+| Интерфейс         | CSS, SVG, Phosphor; локальные шрифты Manrope и IBM Plex Mono                     |
+| Markdown          | `react-markdown`, `remark-gfm`; сырой HTML отключён                              |
+| Проверки          | Vitest, TypeScript, Prettier; браузерные проверки через agent-browser и axe-core |
+| Хранение          | `localStorage` для сценария и одного набора сравнения; без базы данных           |
 
 ## Архитектура
 
