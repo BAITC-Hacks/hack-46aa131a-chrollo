@@ -90,7 +90,7 @@ export function summarize(rows: Indicators[]) {
 export type Simulation = ReturnType<typeof simulate>;
 
 /** Internal partial coalitions are required for attribution; public final scores use evaluate(). */
-export function simulate(decisions: Decision[]) {
+export function simulate(decisions: Decision[], delay?: { measureId: string; quarters: number }) {
   const rows = DISTRICTS.map((d) => ({ ...d.indicators }));
   for (const decision of decisions) {
     const m = MEASURE_BY_ID[decision.measureId];
@@ -98,7 +98,10 @@ export function simulate(decisions: Decision[]) {
     DISTRICTS.forEach((d, i) => {
       if (m.scope === "district" && decision.districtId !== d.id) return;
       for (const [key, value] of Object.entries(m.effects))
-        rows[i][key as MetricId] += (value * (HORIZON - m.lag)) / HORIZON;
+        rows[i][key as MetricId] +=
+          (value *
+            Math.max(0, HORIZON - m.lag - (delay?.measureId === m.id ? delay.quarters : 0))) /
+          HORIZON;
     });
   }
   const synergies: { name: string; districtId: DistrictId; metricId: MetricId; bonus: number }[] =

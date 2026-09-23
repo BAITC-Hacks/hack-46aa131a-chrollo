@@ -1,13 +1,21 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Buildings, Info, SlidersHorizontal, X } from "@phosphor-icons/react";
+import {
+  ArrowUpRight,
+  Buildings,
+  ChatCircleDots,
+  Info,
+  SlidersHorizontal,
+  X,
+} from "@phosphor-icons/react";
 import { EXAMPLE, MODEL_VERSION, type Decision } from "@/lib/data";
 import { parseScenario, scenarioKey, validate } from "@/lib/engine";
 import { makeReport, type Analysis } from "@/lib/report";
 import { Overview } from "./overview";
 import { Builder } from "./builder";
 import { Results } from "./results";
-type View = "overview" | "builder" | "results";
+import { PlannerChat } from "./planner-chat";
+type View = "overview" | "builder" | "results" | "planner";
 const STORAGE = "qala.scenario.v1";
 const SAVED = "qala.comparison.v1";
 
@@ -214,6 +222,15 @@ export function Simulator() {
         </div>
         <nav aria-label="Основная навигация">
           <button
+            aria-label="AI-помощник"
+            className={view === "planner" ? "active" : ""}
+            onClick={() => navigate("planner")}
+            aria-current={view === "planner" ? "page" : undefined}
+          >
+            <ChatCircleDots size={20} />
+            <span>AI-помощник</span>
+          </button>
+          <button
             aria-label="Обзор города"
             className={view === "overview" ? "active" : ""}
             onClick={() => navigate("overview")}
@@ -275,7 +292,9 @@ export function Simulator() {
                 ? "Обзор города"
                 : view === "builder"
                   ? "Конструктор сценария"
-                  : "Отчёт о решениях"}
+                  : view === "planner"
+                    ? "Диалог и подбор планов"
+                    : "Отчёт о решениях"}
             </span>
           </div>
           <div className="topbar-right">
@@ -292,7 +311,7 @@ export function Simulator() {
         </header>
         <main id="main" ref={contentRef} tabIndex={-1}>
           {view === "overview" ? (
-            <Overview onStart={() => navigate("builder")} onExample={loadExample} />
+            <Overview onStart={() => navigate("planner")} onExample={loadExample} />
           ) : view === "builder" ? (
             <Builder
               decisions={decisions}
@@ -300,7 +319,7 @@ export function Simulator() {
               onCalculate={() => calculate()}
               onNotice={setToast}
             />
-          ) : resultDecisions ? (
+          ) : view === "results" && resultDecisions ? (
             <Results
               decisions={resultDecisions}
               analysis={analysis}
@@ -308,6 +327,7 @@ export function Simulator() {
               loading={loading}
               onAnalyze={analyze}
               onEdit={() => navigate("builder")}
+              onDiscuss={() => navigate("planner")}
               onApply={(next) => {
                 setComparison(resultDecisions);
                 try {
@@ -322,6 +342,21 @@ export function Simulator() {
               onShare={share}
             />
           ) : null}
+          <div hidden={view !== "planner"}>
+            <PlannerChat
+              decisions={decisions}
+              aiConfigured={aiConfigured}
+              onApply={(next) => {
+                if (validate(decisions).valid) {
+                  setComparison(decisions);
+                  try {
+                    localStorage.setItem(SAVED, scenarioKey(decisions));
+                  } catch {}
+                }
+                calculate(next);
+              }}
+            />
+          </div>
           <footer className="footer">
             <span>QALA · Astana Innovations</span>
             <span>Учебная модель · синтетические данные · 2026</span>

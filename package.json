@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "demo:verify": "vitest run src/lib/demo.test.ts --reporter=verbose",
     "check": "npm run typecheck && npm test && npm run build",
     "format": "prettier --write src next.config.ts tsconfig.json vitest.config.ts package.json README.md docs .github",
     "format:check": "prettier --check src next.config.ts tsconfig.json vitest.config.ts package.json README.md docs .github"

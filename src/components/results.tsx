@@ -1,5 +1,6 @@
 "use client";
 import { useMemo } from "react";
+import { ResiliencePanel } from "./resilience-panel";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -99,6 +100,7 @@ export function Results({
   loading,
   onAnalyze,
   onEdit,
+  onDiscuss,
   onApply,
   comparison,
   onSave,
@@ -112,6 +114,7 @@ export function Results({
   loading: boolean;
   onAnalyze: () => void;
   onEdit: () => void;
+  onDiscuss: () => void;
   onApply: (d: Decision[]) => void;
   comparison: Decision[] | null;
   onSave: () => void;
@@ -175,6 +178,9 @@ export function Results({
       </section>
       <div className="report-toolbar">
         <div>
+          <button className="text-button" onClick={onDiscuss}>
+            Обсудить и улучшить с AI <ArrowUpRight size={16} />
+          </button>
           <button className="text-button" onClick={onSave}>
             <Plus size={16} />
             Сохранить для сравнения
@@ -374,6 +380,10 @@ export function Results({
           </p>
         </aside>
       </div>
+      <ResiliencePanel
+        key={decisions.map((d) => `${d.measureId}:${d.districtId}`).join(",")}
+        decisions={decisions}
+      />
       <section className="report-section indicators-section">
         <div className="section-heading compact">
           <div>

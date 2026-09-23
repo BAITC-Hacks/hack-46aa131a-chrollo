@@ -100,7 +100,7 @@ export function Overview({ onStart, onExample }: { onStart: () => void; onExampl
           </p>
           <div className="intro-actions">
             <button className="button primary" onClick={onStart}>
-              Создать сценарий <ArrowRight size={18} />
+              Обсудить с AI <ArrowRight size={18} />
             </button>
             <button className="text-button" onClick={onExample}>
               Посмотреть пример <ArrowUpRight size={17} />
