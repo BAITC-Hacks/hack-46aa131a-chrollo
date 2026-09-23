@@ -20,7 +20,7 @@ const STORAGE = "qala.scenario.v1";
 const SAVED = "qala.comparison.v1";
 
 export function Simulator() {
-  const [view, setView] = useState<View>("overview");
+  const [view, setView] = useState<View>("planner");
   const [decisions, setDecisions] = useState<Decision[]>([]);
   const [resultDecisions, setResultDecisions] = useState<Decision[] | null>(null);
   const [comparison, setComparison] = useState<Decision[] | null>(null);
@@ -42,6 +42,7 @@ export function Simulator() {
           : parseScenario(localStorage.getItem(STORAGE) ?? "");
       if (restored) {
         setDecisions(restored);
+        if (validate(restored).valid) setResultDecisions(restored);
         if (shared !== null) {
           if (validate(restored).valid) {
             setResultDecisions(restored);
@@ -108,7 +109,7 @@ export function Simulator() {
       history.replaceState(null, "", location.pathname);
     }
   }
-  function calculate(next = decisions) {
+  function calculate(next = decisions, showResults = true) {
     if (!validate(next).valid) {
       setToast(validate(next).errors[0]);
       return;
@@ -121,7 +122,7 @@ export function Simulator() {
       url.searchParams.set("scenario", scenarioKey(next));
       history.replaceState(null, "", url);
     }
-    navigate("results");
+    if (showResults) navigate("results");
   }
   function loadExample() {
     change(EXAMPLE);
@@ -216,19 +217,15 @@ export function Simulator() {
             qala<span className="brand-dot">.</span>
           </span>
         </a>
-        <div className="sidebar-project">
-          <span className="eyebrow">ГОРОДСКОЙ СИМУЛЯТОР</span>
-          <strong>Аким на 5 часов</strong>
-        </div>
         <nav aria-label="Основная навигация">
           <button
-            aria-label="AI-помощник"
+            aria-label="Город и AI"
             className={view === "planner" ? "active" : ""}
             onClick={() => navigate("planner")}
             aria-current={view === "planner" ? "page" : undefined}
           >
             <ChatCircleDots size={20} />
-            <span>AI-помощник</span>
+            <span>Город и AI</span>
           </button>
           <button
             aria-label="Обзор города"
@@ -260,55 +257,16 @@ export function Simulator() {
             <span>Результат</span>
           </button>
         </nav>
-        <div className="sidebar-note">
-          <span className="tiny-city">
-            <Buildings size={38} weight="thin" />
-          </span>
-          <p>
-            Хороший город —<br />
-            это сумма решений.
-          </p>
-          <span>
-            ASTANA INNOVATIONS
-            <br />
-            HACKALEM AI
-          </span>
-        </div>
-        <a
-          className="repo-link"
-          href="https://github.com/BAITC-Hacks/hack-46aa131a-chrollo"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Код и методика <ArrowUpRight size={14} />
-        </a>
+        <span className={`ai-status ${aiConfigured ? "connected" : ""}`}>
+          <span className="status-dot" />
+          {aiConfigured === null
+            ? "Проверка AI…"
+            : aiConfigured
+              ? "OpenAI подключён"
+              : "Расчётный режим"}
+        </span>
       </aside>
       <div className="workspace">
-        <header className="topbar">
-          <div>
-            <span className="breadcrumb">QALA /</span>
-            <span>
-              {view === "overview"
-                ? "Обзор города"
-                : view === "builder"
-                  ? "Конструктор сценария"
-                  : view === "planner"
-                    ? "Диалог и подбор планов"
-                    : "Отчёт о решениях"}
-            </span>
-          </div>
-          <div className="topbar-right">
-            <span className={`ai-status ${aiConfigured ? "connected" : ""}`}>
-              <span className="status-dot" />
-              {aiConfigured === null
-                ? "Проверка AI…"
-                : aiConfigured
-                  ? "OpenAI подключён"
-                  : "Расчётный режим"}
-            </span>
-            <span className="model-label">МОДЕЛЬ 1.0</span>
-          </div>
-        </header>
         <main id="main" ref={contentRef} tabIndex={-1}>
           {view === "overview" ? (
             <Overview onStart={() => navigate("planner")} onExample={loadExample} />
@@ -353,12 +311,19 @@ export function Simulator() {
                     localStorage.setItem(SAVED, scenarioKey(decisions));
                   } catch {}
                 }
-                calculate(next);
+                calculate(next, false);
               }}
             />
           </div>
           <footer className="footer">
             <span>QALA · Astana Innovations</span>
+            <a
+              href="https://github.com/BAITC-Hacks/hack-46aa131a-chrollo"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Код и методика ↗
+            </a>
             <span>Учебная модель · синтетические данные · 2026</span>
           </footer>
         </main>

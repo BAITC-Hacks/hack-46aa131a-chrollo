@@ -20,4 +20,7 @@ export interface PlannerRequest {
   constraints: PlanConstraints;
   decisions: Decision[];
   previousPlans: Decision[][];
+  scenarioContext?: "preview" | "applied";
+  appliedDecisions?: Decision[];
+  experiment?: { measureId: string; quarters: number };
 }

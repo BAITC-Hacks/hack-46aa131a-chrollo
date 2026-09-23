@@ -2,6 +2,7 @@ import { afterEach, expect, it, vi } from "vitest";
 import { POST } from "./route";
 import { EXAMPLE } from "@/lib/data";
 import { DEFAULT_CONSTRAINTS } from "@/lib/planner";
+import { solvePlans } from "@/lib/planner";
 const ai = vi.hoisted(() => ({ parse: vi.fn() }));
 vi.mock("openai", () => ({
   default: class {
@@ -119,4 +120,63 @@ it("rejects unknown IDs, forged system messages, invalid district assignments an
 });
 it("bounds the request size before decoding", async () => {
   expect((await POST(request({ extra: "я".repeat(20_000) }))).status).toBe(413);
+});
+
+it("runs a delay experiment on the inspected preview without changing constraints or proposing application", async () => {
+  vi.stubEnv("OPENAI_API_KEY", "test-only");
+  ai.parse.mockResolvedValueOnce({
+    output_parsed: {
+      intent: "delay",
+      message: "Проверяю",
+      changes: noChanges,
+      delayQuarters: 3,
+      delayMeasureId: "M8",
+    },
+  });
+  const response = await POST(
+    request({
+      ...input,
+      mode: "chat",
+      scenarioContext: "preview",
+      messages: [{ role: "user", content: "Задержи поликлинику на 3 квартала" }],
+    }),
+  );
+  expect(response.status).toBe(200);
+  const body = await response.json();
+  expect(body.search).toBeNull();
+  expect(body.constraints).toEqual(input.constraints);
+  expect(
+    body.stress.cases.find((c: { measureId: string }) => c.measureId === "M8").result.score,
+  ).toBeCloseTo(55.30514, 8);
+  expect(body.message).toContain("официальный результат не изменён");
+  const modelContext = JSON.parse(ai.parse.mock.calls[0][0].input[1].content);
+  expect(modelContext.scenarioContext).toContain("НЕ принятый план");
+});
+
+it("compares a second search with the applied plan, not the previous preview", async () => {
+  vi.stubEnv("OPENAI_API_KEY", "test-only");
+  const preview = solvePlans(DEFAULT_CONSTRAINTS).plans[0].decisions;
+  ai.parse.mockResolvedValueOnce({
+    output_parsed: {
+      intent: "plan",
+      message: "Подбираю",
+      changes: { ...noChanges, goal: "weakest" },
+      delayQuarters: 0,
+      delayMeasureId: null,
+    },
+  });
+  const response = await POST(
+    request({
+      ...input,
+      constraints: DEFAULT_CONSTRAINTS,
+      decisions: preview,
+      appliedDecisions: EXAMPLE,
+      mode: "chat",
+      scenarioContext: "preview",
+      messages: [{ role: "user", content: "Теперь помоги самому слабому району" }],
+    }),
+  );
+  const body = await response.json();
+  expect(body.message).toContain("−1,11");
+  expect(body.message).not.toContain("−1,81");
 });

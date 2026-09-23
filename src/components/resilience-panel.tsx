@@ -10,14 +10,18 @@ export function ResiliencePanel({
   initialQuarters = 2,
   focusMeasureId = null,
   planLabel = "Текущий план",
+  onExperimentChange,
 }: {
   decisions: Decision[];
   initialQuarters?: number;
   focusMeasureId?: string | null;
   planLabel?: string;
+  onExperimentChange?: (quarters: number, focus: string | null) => void;
 }) {
-  const [quarters, setQuarters] = useState(initialQuarters);
-  const [focus, setFocus] = useState<string | null>(focusMeasureId);
+  const [localQuarters, setQuarters] = useState(initialQuarters);
+  const [localFocus, setFocus] = useState<string | null>(focusMeasureId);
+  const quarters = onExperimentChange ? initialQuarters : localQuarters;
+  const focus = onExperimentChange ? focusMeasureId : localFocus;
   const report = useMemo(() => testDelays(decisions, quarters), [decisions, quarters]);
   const selected = report.cases.find((c) => c.measureId === focus) ?? report.worst;
   const returned = selected.result.critical.filter(
@@ -44,7 +48,14 @@ export function ResiliencePanel({
       <div className="delay-controls">
         <label>
           Дополнительная задержка
-          <select value={quarters} onChange={(e) => setQuarters(Number(e.target.value))}>
+          <select
+            value={quarters}
+            onChange={(e) => {
+              const next = Number(e.target.value);
+              setQuarters(next);
+              onExperimentChange?.(next, focus);
+            }}
+          >
             {[1, 2, 3, 4, 5, 6, 7, 8].map((q) => (
               <option value={q} key={q}>
                 {q} кварт. ({q * 3} мес.)
@@ -56,7 +67,11 @@ export function ResiliencePanel({
           Мероприятие
           <select
             value={focus ?? "worst"}
-            onChange={(e) => setFocus(e.target.value === "worst" ? null : e.target.value)}
+            onChange={(e) => {
+              const next = e.target.value === "worst" ? null : e.target.value;
+              setFocus(next);
+              onExperimentChange?.(quarters, next);
+            }}
           >
             <option value="worst">Самая чувствительная мера</option>
             {decisions.map((d) => (
